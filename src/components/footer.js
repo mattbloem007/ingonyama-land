@@ -18,6 +18,7 @@ import {
   Text,
   IconLink,
   VisuallyHidden,
+  Logo
 } from "./ui"
 import BrandLogo from "./brand-logo"
 
@@ -92,6 +93,13 @@ export default function Footer() {
           }
         }
       }
+      datoCmsHomepageLogoList {
+        id
+        logos {
+          id
+          gatsbyImageData
+        }
+      }
     }
   `)
 
@@ -103,7 +111,7 @@ export default function Footer() {
         <Flex variant="start" responsive>
           <NavLink to="/">
             <VisuallyHidden>Home</VisuallyHidden>
-            <BrandLogo />
+            <Logo alt="Ingonyama Trust" image={data.datoCmsHomepageLogoList.logos[0].gatsbyImageData} size="medium" />
           </NavLink>
           <Space />
           <FlexList>

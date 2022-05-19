@@ -4,6 +4,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 })
 
+const pKey = process.env.GATSBY_FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n")
+
 module.exports = {
   siteMetadata: {
     siteUrl: "https://gatsbydatocmshomepage.gatsbyjs.io/",
@@ -12,6 +14,35 @@ module.exports = {
     description: "A Gatsby Starter for building homepages with DatoCMS",
   },
   plugins: [
+    {
+      resolve: `gatsby-firesource`,
+      options: {
+        credential: {
+          type: process.env.GATSBY_FIREBASE_TYPE,
+          project_id: process.env.GATSBY_FIREBASE_PROJECT_ID,
+          private_key_id: process.env.GATSBY_FIREBASE_PRIVATE_KEY_ID,
+          private_key: pKey,
+          client_email: process.env.GATSBY_FIREBASE_CLIENT_EMAIL,
+          client_id: process.env.GATSBY_FIREBASE_CLIENT_ID,
+          auth_uri: process.env.GATSBY_FIREBASE_AUTH_URI,
+          token_uri: process.env.GATSBY_FIREBASE_TOKEN_URI,
+          auth_provider_x509_cert_url:
+            process.env.GATSBY_FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+          client_x509_cert_url:
+            process.env.GATSBY_FIREBASE_CLIENT_X509_CERT_URL,
+        },
+        types: [
+          {
+            type: "User",
+            collection: "users",
+            map: doc => ({
+              name: doc.name,
+              email: doc.email,
+            }),
+          },
+        ],
+      },
+    },
     {
       resolve: "gatsby-source-datocms",
       options: {
