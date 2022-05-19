@@ -105,7 +105,7 @@ export default function Header() {
 
   if (typeof window !== "undefined") {
     user = JSON.parse(window.sessionStorage.getItem('user'))
-  } 
+  }
   if (user) {
     if (profile == null) {
       console.log("her in")
