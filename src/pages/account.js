@@ -16,32 +16,32 @@ import { Form, Label, Input } from "reactstrap"
 const Account = () => {
   const [profile, setProfile] = React.useState(null)
   const [formValues, setFormValues] = useState({ name: "", number: "", role: "" })
-  const {user,  firebase } = useAuth()
+  const { firebase } = useAuth()
 
   //const { firebase } = useContext(FirebaseContext)
-  // let user = null;
+  let user = null;
+  if (typeof window !== "undefined") {
+    user = JSON.parse(window.sessionStorage.getItem('user'))
+  }
+
+  if (user) {
+    if (profile == null) {
+      console.log("her in")
+      try {
+          firebase.getUserProfile({userId: user.uid})
+          .then((profile) => {
+            setProfile(profile)
+            //console.log(profile)
+          })
+        }
+        catch(err) {
+          console.log(err)
+        }
+    }
+  }
+
   React.useEffect(() => {
 
-    // if (typeof window !== "undefined") {
-    //   user = JSON.parse(window.sessionStorage.getItem('user'))
-    // } else {
-    //   user = JSON.parse(sessionStorage.getItem('user'))
-    // }
-    // if (user) {
-    //   if (profile == null) {
-    //     console.log("her in")
-    //     try {
-    //         firebase.getUserProfile({userId: user.uid})
-    //         .then((profile) => {
-    //           setProfile(profile)
-    //           //console.log(profile)
-    //         })
-    //       }
-    //       catch(err) {
-    //         console.log(err)
-    //       }
-    //   }
-    // }
   })
 
   function handleEdit(e) {

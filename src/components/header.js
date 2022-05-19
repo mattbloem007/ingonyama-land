@@ -100,29 +100,28 @@ export default function Header() {
   const [isOpen, setOpen] = React.useState(false)
   const [profile, setProfile] = React.useState(null)
   //const { firebase } = useContext(FirebaseContext)
-  const { user, firebase } = useAuth()
-   //let user = null;
-  //
-  // if (typeof window !== "undefined") {
-  //   user = JSON.parse(window.sessionStorage.getItem('user'))
-  // } else {
-  //   user = JSON.parse(sessionStorage.getItem('user'))
-  // }
-  // if (user) {
-  //   if (profile == null) {
-  //     console.log("her in")
-  //     try {
-  //         firebase.getUserProfile({userId: user.uid})
-  //         .then((profile) => {
-  //           setProfile(profile)
-  //           //console.log(profile)
-  //         })
-  //       }
-  //       catch(err) {
-  //         console.log(err)
-  //       }
-  //   }
-  // }
+  const { firebase } = useAuth()
+   let user = null;
+
+  if (typeof window !== "undefined") {
+    user = JSON.parse(window.sessionStorage.getItem('user'))
+  } 
+  if (user) {
+    if (profile == null) {
+      console.log("her in")
+      try {
+          firebase.getUserProfile({userId: user.uid})
+          .then((profile) => {
+            setProfile(profile)
+            console.log(profile)
+          })
+        }
+        catch(err) {
+          console.log(err)
+        }
+    }
+  }
+  console.log("profile", profile)
 
   function handleLogoutClick() {
     firebase.logout().then(() => {
