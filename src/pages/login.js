@@ -30,16 +30,12 @@ const Login = () => {
       .login({ email: formValues.email, password: formValues.password })
       .then((res) => {
         console.log("window?", window)
-        // if (typeof window !== "undefined") {
-        //   window.sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
-        // } else {
-        //   sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
-        // }
-        // if (typeof window !== "undefined") {
-        //   window.sessionStorage.setItem('user', JSON.stringify(res.user))
-        // } else {
-        //   sessionStorage.setItem('user', JSON.stringify(res.user))
-        // }
+        if (typeof window !== "undefined") {
+          window.sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
+        }
+        if (typeof window !== "undefined") {
+          window.sessionStorage.setItem('user', JSON.stringify(res.user))
+        }
         navigate("/account")
       })
       .catch(error => {
