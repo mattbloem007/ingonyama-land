@@ -39,14 +39,6 @@ class Firebase {
     }
   }
 
-  // componentWillUpdate() {
-  //   await setDoc(doc(this.db, "users"), {
-  //     name: "Los Angeles",
-  //     state: "CA",
-  //     country: "USA"
-  //   });
-  // }
-
   async getUserProfile({ userId, handler }) {
     const usersRef = collection(this.db, "users");
     const q = query(usersRef, where("uid", "==", userId));
@@ -56,25 +48,14 @@ class Firebase {
       profile = doc.data()
     });
     return profile
-    //onSnapshot(
-      // query(
-      //   collection(this.db, "users"),
-      //   where("uid", "==", userId),
-      //   limit(1)
-      // )
-    //  docs => handler(docs)
-    //)
   }
 
   async register(info){
     createUserWithEmailAndPassword(this.auth, info.email, info.password)
       .then(async (user) => {
-          // if (typeof window !== "undefined") {
-          //   window.sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
-          // }
-          // else {
-          //   sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
-          // }
+          if (typeof window !== "undefined") {
+            window.sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
+          }
           await addDoc(collection(this.db, "users"), {
           uid: user.user.uid,
           name: info.username,
@@ -106,11 +87,9 @@ class Firebase {
   }
 
   async logout() {
-    // if (typeof window !== "undefined") {
-    //   window.sessionStorage.clear()
-    // } else {
-    //   sessionStorage.clear()
-    // }
+    if (typeof window !== "undefined") {
+      window.sessionStorage.clear()
+    }
     await signOut(this.auth)
   }
 
