@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useContext } from 'react'
-import { graphql, useStaticQuery, navigate } from "gatsby"
+import { graphql, useStaticQuery } from "gatsby"
+import { navigate } from "@reach/router"
 import { Menu, X } from "react-feather"
 import styled from "styled-components"
 import {
@@ -30,14 +31,6 @@ const UserInfo = styled.div`
   text-align: right;
   color: white;
 `
-
-// const LogoutLink = styled.span`
-//   color: white;
-//   cursor: pointer;
-//   &:hover {
-//     text-decoration: underline;
-//   }
-// `
 
 const LoginLink = styled.div`
   margin: auto 0;
@@ -83,6 +76,19 @@ export default function Header() {
             id
             href
             text
+          }
+        }
+        profileMenu {
+          ... on DatoCmsLayoutheader {
+            navItems {
+            ... on DatoCmsNavItemGroup {
+              navItems {
+                href
+                text
+              }
+              navItemType
+              }
+            }
           }
         }
       }
@@ -168,18 +174,33 @@ export default function Header() {
           </nav>
           <div>{/**cta && <Button to={cta.href}>{cta.text}</Button>*/}
           {!!user && !!user.email && (
-            <UserInfo>
-              Hello, {user.username || user.email}
+            <LoginLink style={{display: "flex", alignItems: "center"}}>
+              <FlexList gap={4}>
+                {data.layout.profileMenu.navItems &&
+                  data.layout.profileMenu.navItems.map((navItem) => (
+                    <li key={navItem.id}>
+                      {navItem.navItemType === "Group" ? (
+                        <NavItemGroup
+                          name={navItem.name}
+                          navItems={navItem.navItems}
+                        />
+                      ) : (
+                        <NavLink to={navItem.href}>{navItem.text}</NavLink>
+                      )}
+                    </li>
+                  ))}
+              </FlexList>
+              <Divider />
               <div>
                 <Button onClick={handleLogoutClick}>Logout</Button>
               </div>
-            </UserInfo>
+            </LoginLink>
           )}
           {(!user || !user.email) && (
             <LoginLink>
-              <Button to="/login">Login</Button>
+              <Button to="/login/">Login</Button>
               <Divider />
-              <Button to="/register">Register</Button>
+              <Button to="/register/">Register</Button>
             </LoginLink>
           )}
           </div>

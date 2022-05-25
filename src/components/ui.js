@@ -1,4 +1,5 @@
-import { Link as GatsbyLink } from "gatsby"
+//import { Link as GatsbyLink } from "gatsby"
+import { Link as RouterLink } from "@reach/router";
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import isAbsoluteURL from "is-absolute-url"
 import * as React from "react"
@@ -148,7 +149,7 @@ export function Link({ to, href, ...props }) {
       <a href={url} className={styles.link} {...props} />
     )
   }
-  return <GatsbyLink to={url} className={styles.link} {...props} />
+  return <RouterLink to={url} className={styles.link} {...props} />
 }
 
 export function NavLink({ ...props }) {

@@ -1,18 +1,18 @@
 import React, { useState, useContext, useEffect } from "react"
-import { Link, navigate } from "gatsby"
+import { Link, navigate } from "@reach/router"
 import { FirebaseContext, useAuth } from "../components/Firebase"
 import { Form, Input, Button, ErrorMessage, GoogleButton } from "../components/common"
 import Layout from "../components/layout"
 import {
   Container,
   Section,
+  Flex
 } from "../components/ui"
+import "../components/common/form.css"
 
 const Login = () => {
   const [formValues, setFormValues] = useState({ email: "", password: "" })
-  //const base = useContext(FirebaseContext)
   const { user, firebase, loading } = useAuth()
-  //const { user } = useContext(FirebaseContext)
   const [errorMessage, setErrorMessage] = useState("")
   let isMounted = true
   console.log("login user", firebase)
@@ -25,7 +25,7 @@ const Login = () => {
 
   function handleSubmit(e) {
     e.preventDefault()
-
+    console.log("form values", formValues)
     firebase
       .login({ email: formValues.email, password: formValues.password })
       .then((res) => {
@@ -73,37 +73,75 @@ const Login = () => {
     <Layout>
       <Section padding={4} background="muted">
         <Container>
-          <Form onSubmit={handleSubmit}>
-            <Input
-              required
-              value={formValues.email}
-              name="email"
-              onChange={handleInputChange}
-              placeholder="email"
-              type="email"
-            />
-            <Input
-              required
-              value={formValues.password}
-              name="password"
-              onChange={handleInputChange}
-              placeholder="password"
-              type="password"
-            />
-            {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <Button type="submit" block>
-              Login
-            </Button>
-            <GoogleButton onClick={handleGoogleSignIn}>
-            Login with Google
-          </GoogleButton>
-          <div>
-            <Link to="/reset">Forgot Password</Link>
+        <div class="container">
+     <div class="row">
+   <div class="col-md-5 mx-auto">
+   <div id="first">
+     <div class="myform form ">
+        <div class="logo mb-3">
+          <div class="col-md-12 text-center">
+           <h1>Login</h1>
           </div>
-          <div>
-            Don't have an account? <Link to="/register">Register</Link> now.
+       </div>
+                <Form onSubmit={handleSubmit}>
+                        <div class="form-group">
+                           <label for="exampleInputEmail1">Email address</label>
+                           <input
+                           value={formValues.email}
+                           onChange={handleInputChange}
+                           type="email"
+                           name="email"
+                           class="form-control"
+                           id="email"
+                           aria-describedby="emailHelp"
+                           placeholder="Enter email" />
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleInputEmail1">Password</label>
+                           <input
+                           value={formValues.password}
+                           onChange={handleInputChange}
+                           type="password"
+                           name="password"
+                           id="password"
+                           class="form-control"
+                           aria-describedby="emailHelp"
+                           placeholder="Enter Password" />
+                        </div>
+                        <div class="form-group">
+                           <p class="text-center">By signing up you accept our Terms Of Use</p>
+                        </div>
+                        {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                        <div class="col-md-12 text-center ">
+                           <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                        </div>
+                        <div class="col-md-12 ">
+                           <div class="login-or">
+                              <hr class="hr-or" />
+                              <span class="span-or">or</span>
+                           </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                           <p class="text-center">
+                              <button onClick={handleGoogleSignIn} class="google btn mybtn"><i class="fa fa-google-plus">
+                              </i> Signup using Google
+                              </button>
+                           </p>
+                        </div>
+                        <div class="form-group">
+                           <p class="text-center">Don't have account? <a href="/register" id="signup">Sign up here</a></p>
+                        </div>
+                        <div class="form-group">
+                          <p class="text-center"><Link to="/reset">Forgot Password</Link></p>
+                        </div>
+                     </Form>
+
+     </div>
+   </div>
+
+              </div>
+            </div>
           </div>
-          </Form>
         </Container>
       </Section>
     </Layout>

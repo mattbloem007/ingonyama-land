@@ -1,5 +1,48 @@
 const dato = require("datocms-structured-text-to-html-string")
+const path = require(`path`)
 const { getGatsbyImageResolver } = require("gatsby-plugin-image/graphql-utils")
+
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions
+
+  const blogPost = path.resolve(`./src/templates/blog-post.js`)
+  const blogIndex = path.resolve(`./src/templates/blog-index.js`)
+
+  return graphql(
+    `
+      {
+        allDatoCmsBlogpost {
+          nodes {
+            id
+            slug
+            title
+          }
+        }
+      }
+    `
+  ).then(result => {
+
+    const allBlog = result.data.allDatoCmsBlogpost.nodes
+    console.log("res", allBlog)
+
+    allBlog.map(node => {
+      console.log("node", node)
+        createPage({
+            path: "landlease/" + node.slug,
+            component: blogPost,
+            context: {
+                id: node.id,
+                slug: node.slug
+            }
+        });
+    })
+
+    createPage({
+        path: "landlease",
+        component: blogIndex,
+    });
+  })
+}
 
 exports.createSchemaCustomization = async ({ actions }) => {
   actions.createFieldExtension({
@@ -344,6 +387,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
     interface Layout implements Node {
       id: ID!
       header: LayoutHeader
+      profileMenu: LayoutHeader
       footer: LayoutFooter
     }
 

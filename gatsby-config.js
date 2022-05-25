@@ -15,6 +15,10 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/account/*`] },
+    },
+    {
       resolve: `gatsby-firesource`,
       options: {
         credential: {
@@ -51,6 +55,7 @@ module.exports = {
       },
     },
     "gatsby-plugin-sharp",
+    `gatsby-plugin-gatsby-cloud`,
     "gatsby-plugin-image",
     "gatsby-transformer-sharp",
     "gatsby-plugin-react-helmet",

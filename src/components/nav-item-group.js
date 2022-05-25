@@ -75,7 +75,8 @@ export default function NavItemGroup({ name, navItems }) {
       >
         <Flex gap={1} className={styles.navGroupTitleInner}>
           {name}
-          <Caret direction={isOpen ? "up" : "down"} />
+          <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image" />
+          {/**<Caret direction={isOpen ? "up" : "down"} />*/}
         </Flex>
       </NavButtonLink>
       {isOpen && (

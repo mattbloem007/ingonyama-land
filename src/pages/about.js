@@ -18,6 +18,7 @@ export default function About(props) {
   )
 }
 
+
 export const query = graphql`
   {
     aboutPage {

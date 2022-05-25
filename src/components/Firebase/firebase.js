@@ -21,6 +21,8 @@ import {
   doc,
   addDoc,
 } from "firebase/firestore"
+//import { navigate } from "gatsby"
+import { navigate } from "@reach/router"
 import { getFunctions, httpsCallable } from "firebase/functions"
 import { getStorage } from "firebase/storage"
 
@@ -49,10 +51,10 @@ class Firebase {
     });
     return profile
   }
-
   async register(info){
     createUserWithEmailAndPassword(this.auth, info.email, info.password)
       .then(async (user) => {
+
           if (typeof window !== "undefined") {
             window.sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
           }
@@ -65,9 +67,11 @@ class Firebase {
           role: info.role
         });
           console.log('User', user, 'registered!');
+          return user
       })
       .catch((error) => {
         alert(error.message)
+        navigate("/register")
       });
     };
 

@@ -5,6 +5,14 @@ export const blogPost = style({
   fontSize: theme.fontSizes[3],
 })
 
+export const thumbnail = style({
+  width: "20%",
+})
+
+export const orig = style({
+  width: "50%",
+})
+
 globalStyle(`${blogPost} img`, {
   maxWidth: "100%",
   height: "auto",
