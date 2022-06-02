@@ -5,3 +5,5 @@ import "@fontsource/dm-mono"
 import "@fontsource/dm-mono/500.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "instantsearch.css/themes/reset-min.css"
+import "instantsearch.css/themes/algolia-min.css"
