@@ -54,7 +54,14 @@ module.exports = {
         environment: process.env.DATOCMS_ENVIRONMENT,
       },
     },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        path: `${__dirname}/docs`
+      }
+    },
     "gatsby-plugin-sharp",
+    "gatsby-transformer-json",
     `gatsby-plugin-gatsby-cloud`,
     "gatsby-plugin-image",
     "gatsby-transformer-sharp",

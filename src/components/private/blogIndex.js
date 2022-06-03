@@ -37,9 +37,8 @@ const searchClient = algoliasearch(
 );
 
 function PostCard(props) {
-  console.log("Props", props)
     return (
-      <BlockLink to={`/landlease/${props.post[0].slug}`}>
+      <BlockLink to={`/landlease/${props.props.hit._id}/${props.props.hit._source.FARM_NAME}`} state={{ images: props.post[0].image }}>
         {props.post[0].image[0] && (
           <>
             <GatsbyImage alt={props.post[0].image[0].alt} image={props.post[0].image[0].gatsbyImageData} />

@@ -18,23 +18,49 @@ exports.createPages = ({ graphql, actions }) => {
             title
           }
         }
+
+        allEsLeasesJson {
+          nodes {
+            _id
+            _source {
+              ADDRESS
+              FARM_NAME
+              PROP_DESC
+              STATUS
+              USEAGE
+              LESSEENAME
+            }
+          }
+        }
       }
     `
   ).then(result => {
 
     const allBlog = result.data.allDatoCmsBlogpost.nodes
-    console.log("res", allBlog)
+    const allLeases = result.data.allEsLeasesJson.nodes
+    console.log("res", allLeases)
 
-    allBlog.map(node => {
-      console.log("node", node)
-        createPage({
-            path: "landlease/" + node.slug,
-            component: blogPost,
-            context: {
-                id: node.id,
-                slug: node.slug
-            }
-        });
+    // allBlog.map(node => {
+    //   console.log("node", node)
+    //     createPage({
+    //         path: "landlease/" + node.slug,
+    //         component: blogPost,
+    //         context: {
+    //             id: node.id,
+    //             slug: node.slug
+    //         }
+    //     });
+    // })
+
+    allLeases.map(node => {
+      createPage({
+        path: "landlease/" + node._id + "/" + node._source.FARM_NAME,
+        component: blogPost,
+        context: {
+            _id: node._id,
+            slug: node.FARM_NAME
+        }
+      })
     })
 
     createPage({

@@ -1,16 +1,13 @@
 import * as React from "react"
-import { GatsbyImage } from "gatsby-plugin-image"
-import Layout from "../components/layout"
 import { graphql } from 'gatsby'
 import { Router } from '@reach/router';
 import PrivateRoute from "../components/PrivateRoute"
 import blogPostPage from "../components/private/blogPost"
 
 const BlogPost = (props) => {
-  console.log("data", props.data)
   return (
     <Router>
-      <PrivateRoute path="/landlease/:id" component={blogPostPage} context={props.pageContext} data={props.data}/>
+      <PrivateRoute path="/landlease/:id/:name" component={blogPostPage} context={props.pageContext} data={props.data} state={props.location.state}/>
     </Router>
   )
 
@@ -19,28 +16,17 @@ const BlogPost = (props) => {
   export default BlogPost
 
 export const query = graphql`
-  query ($slug: String) {
-      datoCmsBlogpost(slug: { eq: $slug }) {
-        slug
-        id
-        excerpt
-        title
-        image {
-          gatsbyImageData
-          alt
-          url
-        }
-        body {
-          value
-        }
-        author {
-          avatar {
-            gatsbyImageData
-            url
+  query ($_id: String) {
+      esLeasesJson (_id: {eq: $_id }) {
+          _id
+          _source {
+            ADDRESS
+            FARM_NAME
+            PROP_DESC
+            STATUS
+            USEAGE
+            LESSEENAME
           }
-          name
-        }
-        date
       }
   }
 `

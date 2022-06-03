@@ -9,7 +9,7 @@ class ImageGalleryComponent extends React.Component {
                 {this.props.images ? this.props.images.map(image => {
                   return (
                     <div>
-                        <img src={image.url} />
+                        <img src={image.gatsbyImageData.images.fallback.src} />
                         {/**<p className="legend">My Classic Still 1</p>*/}
                     </div>
                   )

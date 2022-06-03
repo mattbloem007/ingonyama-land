@@ -15,19 +15,19 @@ import { avatar as avatarStyle } from "../ui.css"
 import * as styles from "../../templates/blog-post.css"
 import { StructuredText } from "react-datocms";
 import ImageGalleryComponent from "../common/ImageGalleryComponent"
+import plot from "../../../docs/images/plot.png"
 
 const BlogPostPage = (props) => {
-  console.log("cntxt", props.context)
+
     let pageContext = props.context;
-
-        let blogPost = props.data.datoCmsBlogpost
-
+    let blogPost = props.data.esLeasesJson
+    
         return (
-          <Layout description={blogPost.excerpt}>
+          <Layout description={blogPost._source.PROP_DESC}>
             <Container>
               <Box paddingY={5}>
                 <Heading as="h1">
-                  {blogPost.title}
+                  {blogPost._source.FARM_NAME}
                 </Heading>
                 <Space size={4} />
                 {/** blogPost.author && (
@@ -51,7 +51,7 @@ const BlogPostPage = (props) => {
                   </Box>
                 )*/}
                 <Space size={4} />
-                <Text>{blogPost.excerpt}</Text>
+                <Text>{blogPost._source.FARM_NAME}</Text>
                 <Space size={4} />
                 <Flex style={{alignItems: "flex-start"}}>
                   {/**blogPost.image && (
@@ -61,10 +61,10 @@ const BlogPostPage = (props) => {
                       image={blogPost.image.gatsbyImageData}
                     />
                   )*/}
-                  <ImageGalleryComponent images={blogPost.image}/>
+                  <ImageGalleryComponent images={props.state.images}/>
                   <Space size={3} />
                   <div>
-                    <StructuredText className={styles.blogPost} data={blogPost.body} />
+                    <p className={styles.blogPost}>{blogPost._source.PROP_DESC}</p>
                   </div>
                 </Flex>
               </Box>
