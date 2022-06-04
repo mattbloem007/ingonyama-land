@@ -7,3 +7,4 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "instantsearch.css/themes/reset-min.css"
 import "instantsearch.css/themes/algolia-min.css"
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'

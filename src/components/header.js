@@ -91,6 +91,18 @@ export default function Header() {
             }
           }
         }
+        adminMenu {
+          navItems {
+            ... on DatoCmsNavItemGroup {
+              id
+              name
+              navItems {
+                text
+                href
+              }
+            }
+          }
+        }
       }
       datoCmsHomepageLogoList {
         id
@@ -107,11 +119,13 @@ export default function Header() {
   const [profile, setProfile] = React.useState(null)
   //const { firebase } = useContext(FirebaseContext)
   const { firebase } = useAuth()
-   let user = null;
+  let user = null;
 
   if (typeof window !== "undefined") {
     user = JSON.parse(window.sessionStorage.getItem('user'))
   }
+  let roleMenu = null;
+
   if (user) {
     if (profile == null) {
       console.log("her in")
@@ -127,7 +141,16 @@ export default function Header() {
         }
     }
   }
-  console.log("profile", profile)
+  console.log("profile", data.layout.adminMenu)
+
+  if (profile) {
+    if (profile.role == "Lessee") {
+      roleMenu = data.layout.profileMenu
+    }
+    else if (profile.role == "IT Admin") {
+      roleMenu = data.layout.adminMenu
+    }
+  }
 
   function handleLogoutClick() {
     firebase.logout().then(() => {
@@ -176,8 +199,8 @@ export default function Header() {
           {!!user && !!user.email && (
             <LoginLink style={{display: "flex", alignItems: "center"}}>
               <FlexList gap={4}>
-                {data.layout.profileMenu.navItems &&
-                  data.layout.profileMenu.navItems.map((navItem) => (
+                {roleMenu &&
+                  roleMenu.navItems.map((navItem) => (
                     <li key={navItem.id}>
                       {navItem.navItemType === "Group" ? (
                         <NavItemGroup

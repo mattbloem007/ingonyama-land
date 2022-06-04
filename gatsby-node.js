@@ -38,7 +38,6 @@ exports.createPages = ({ graphql, actions }) => {
 
     const allBlog = result.data.allDatoCmsBlogpost.nodes
     const allLeases = result.data.allEsLeasesJson.nodes
-    console.log("res", allLeases)
 
     // allBlog.map(node => {
     //   console.log("node", node)
@@ -414,6 +413,7 @@ exports.createSchemaCustomization = async ({ actions }) => {
       id: ID!
       header: LayoutHeader
       profileMenu: LayoutHeader
+      adminMenu: LayoutHeader
       footer: LayoutFooter
     }
 

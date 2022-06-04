@@ -50,7 +50,7 @@ function PostCard(props) {
           <Kicker>{
             props.post[0].categories[0].categories.map(tag => {
               return (
-                  <Badge style={{marginRight: "10px", fontSize: "80%"}} color="dark">{tag.tag}</Badge>
+                  <Badge style={{marginRight: "10px", fontSize: "80%"}} color="secondary">{tag.tag}</Badge>
               )
             })
           }</Kicker>
