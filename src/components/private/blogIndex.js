@@ -37,6 +37,7 @@ const searchClient = algoliasearch(
 );
 
 function PostCard(props) {
+  console.log("PROPS", props)
     return (
       <BlockLink to={`/landlease/${props.props.hit._id}/${props.props.hit._source.FARM_NAME}`} state={{ images: props.post[0].image }}>
         {props.post[0].image[0] && (
@@ -187,6 +188,7 @@ const BlogIndexPage = () => {
                   </div>
                 </div>
                 <Box paddingY={4}>
+                <SearchBox showLoadingIndicator searchAsYouType />
                   <Heading as="h1">Land for lease</Heading>
                   <Hits hitComponent={(props) => <PostCard post={featuredPosts} props={props}/>}/>
                   <footer className="container-footer">

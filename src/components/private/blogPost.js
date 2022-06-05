@@ -21,7 +21,7 @@ const BlogPostPage = (props) => {
 
     let pageContext = props.context;
     let blogPost = props.data.esLeasesJson
-    
+    console.log("Props", props)
         return (
           <Layout description={blogPost._source.PROP_DESC}>
             <Container>

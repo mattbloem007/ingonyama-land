@@ -7,13 +7,23 @@ import {
   Container,
   Section,
   Button,
-  Flex
+  Flex,
+  BlockLink
 } from "../ui"
 import BootstrapTable from 'react-bootstrap-table-next';
 
 const columns = [{
   dataField: 'FARM_NAME',
-  text: 'Farm Name'
+  text: 'Farm Name',
+  formatter: (cell, row, rowIndex, extraData) => {
+          console.log("ROW", row)
+          return(
+          <div>
+            <BlockLink to={`/landlease/${row.id}/${row.FARM_NAME}`} state={{images: row.post[0].image}}> {row.FARM_NAME} </BlockLink>
+          </div>
+          )
+        }
+
 }, {
   dataField: 'ADDRESS',
   text: 'Address'
@@ -48,10 +58,11 @@ const LeaseStatus = (props) => {
         }
     }
   }
-
+  let idAndSource = {}
   if (profile) {
     props.data.allEsLeasesJson.nodes.filter(node => node._source.LESSEENAME == profile.name).map(filteredList => {
-      tableData.push(filteredList._source)
+      idAndSource = {post: props.data.allDatoCmsBlogpost.nodes, id: filteredList._id, ...filteredList._source}
+      tableData.push(idAndSource)
     })
 
     console.log("TABLE DATA", tableData)
