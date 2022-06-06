@@ -7,7 +7,8 @@ import {
   Container,
   Section,
   Button,
-  Flex
+  Flex,
+  BlockLink
 } from "../ui"
 import { Form, Label, Input } from "reactstrap"
 
@@ -108,16 +109,8 @@ const AccountPage = () => {
                           </div>
                           <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Land Leased</h6>
                             <div class="row">
-                              <div class="col-sm-6">
-                                  <p class="m-b-10 f-w-600">Owned</p>
-                                  <h6 class="text-muted f-w-400">Land Plot #55</h6>
-                              </div>
-                              <div class="col-sm-6">
-                                  <p class="m-b-10 f-w-600">Awaiting Confirmation</p>
-                                  <h6 class="text-muted f-w-400">Land Plot #12</h6>
-                              </div>
+                              <BlockLink to="/leasestatus" class="m-b-10 f-w-600">View Leased and Awaiting Leases</BlockLink>                            </div>
                             </div>
-                        </div>
                         </Form>
                     </div>
                 </div>

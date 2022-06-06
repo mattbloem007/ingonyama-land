@@ -7,6 +7,8 @@ exports.createPages = ({ graphql, actions }) => {
 
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
   const blogIndex = path.resolve(`./src/templates/blog-index.js`)
+  const propertyPage = path.resolve(`./src/templates/property-page.js`)
+  const propertyList = path.resolve(`./src/templates/property-list.js`)
 
   return graphql(
     `
@@ -32,12 +34,25 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+
+        allEsPropertiesJson {
+            nodes {
+              _id
+              _source {
+                FARMNO
+                FARMNAME
+                DEEDNO
+                DEEDAREA
+              }
+            }
+          }
       }
     `
   ).then(result => {
 
     const allBlog = result.data.allDatoCmsBlogpost.nodes
     const allLeases = result.data.allEsLeasesJson.nodes
+    const allProperties = result.data.allEsPropertiesJson.nodes
 
     // allBlog.map(node => {
     //   console.log("node", node)
@@ -61,6 +76,22 @@ exports.createPages = ({ graphql, actions }) => {
         }
       })
     })
+
+    allProperties.map(node => {
+      createPage({
+        path: "properties/" + node._id + "/" + node._source.FARMNAME,
+        component: propertyPage,
+        context: {
+            _id: node._id,
+            slug: node.FARMNAME
+        }
+      })
+    })
+
+    createPage({
+        path: "properties",
+        component: propertyList,
+    });
 
     createPage({
         path: "landlease",

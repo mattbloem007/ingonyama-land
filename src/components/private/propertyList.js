@@ -36,7 +36,7 @@ import './search.css'
 
 function PostCard(props) {
     return (
-      <BlockLink to={`/landlease/${props.props.hit._id}/${props.props.hit._source.FARM_NAME}`} state={{ images: props.post[0].image }}>
+      <BlockLink to={`/properties/${props.props.hit._id}/${props.props.hit._source.FARMNAME}`} state={{ images: props.post[0].image }}>
         {props.post[0].image[0] && (
           <>
             <GatsbyImage alt={props.post[0].image[0].alt} image={props.post[0].image[0].gatsbyImageData} />
@@ -53,9 +53,9 @@ function PostCard(props) {
             })
           }</Kicker>
           </Flex>
-          {props.props.hit._source.FARM_NAME}
+          {props.props.hit._source.FARMNAME}
         </Subhead>
-        <Text as="p">{props.props.hit._source.ADDRESS ? props.props.hit._source.ADDRESS : ""}</Text>
+        <Text as="p">{props.props.hit._source.DEEDAREA ? props.props.hit._source.DEEDAREA : ""}</Text>
         {props.post[0].author?.name && (
           <Text variant="bold">
             <div>By {props.post[0].author.name}</div>
@@ -68,7 +68,7 @@ function PostCard(props) {
 
 function PostCardSmall(props) {
   return (
-    <BlockLink {...props} to={`/landlease/${props.post.slug}`}>
+    <BlockLink {...props} to={`/properties/${props.post.slug}`}>
       {props.post.image[0] && (
         <>
           <GatsbyImage alt={props.post.image[0].alt} image={props.post.image[0].gatsbyImageData} />
@@ -77,13 +77,13 @@ function PostCardSmall(props) {
       )}
       <Subhead>
         <Kicker>{props.post.category}</Kicker>
-        {props.props.hit._source.FARM_NAME}
+        {props.props.hit._source.FARMNAME}
       </Subhead>
     </BlockLink>
   )
 }
 
-const BlogIndexPage = () => {
+const Properties = () => {
   const [profile, setProfile] = React.useState(null)
   const [formValues, setFormValues] = useState({ name: "", number: "", role: "" })
   const { firebase } = useAuth()
@@ -220,18 +220,18 @@ const BlogIndexPage = () => {
                   </div>
                   <div className="container-body">
                     <Panel header="Farm Name">
-                      <RefinementList attribute="_source.FARM_NAME" />
+                      <RefinementList attribute="_source.FARMNAME" />
                     </Panel>
                   </div>
                   <div className="container-body">
-                    <Panel header="Useage">
-                      <RefinementList attribute="_source.USEAGE" />
+                    <Panel header="Deed Area">
+                      <RefinementList attribute="_source.DEEDAREA" />
                     </Panel>
                   </div>
                 </div>
                 <Box paddingY={4}>
                 <SearchBox showLoadingIndicator searchAsYouType />
-                  <Heading as="h1">Land for lease</Heading>
+                  <Heading as="h1">All Properties</Heading>
                   <Hits hitComponent={(props) => <PostCard post={featuredPosts} props={props}/>}/>
                   <footer className="container-footer">
                     <Pagination
@@ -307,9 +307,9 @@ const BlogIndexPage = () => {
 }
 
 const Hit = ({ hit }) => {
-  console.log("HIT", hit._source.FARM_NAME)
+  console.log("HIT", hit._source.FARMNAME)
   return(
-    <BlockLink to={`/landlease/${hit._source.FARM_NAME}`}>
+    <BlockLink to={`/properties/${hit._source.FARMNAME}`}>
       {/**image[0] && (
         <>
           <GatsbyImage alt={image[0].alt} image={image[0].gatsbyImageData} />
@@ -326,9 +326,9 @@ const Hit = ({ hit }) => {
           })
         */}</Kicker>
         </Flex>
-        {hit._source.FARM_NAME}
+        {hit._source.FARMNAME}
       </Subhead>
-      <Text as="p">{hit._source.ADDRESS ?  hit._source.ADDRESS : ""}</Text>
+      <Text as="p">{hit._source.DEEDAREA ?  hit._source.DEEDAREA : ""}</Text>
       {/**author?.name && (
         <Text variant="bold">
           <div>By {author.name}</div>
@@ -339,23 +339,4 @@ const Hit = ({ hit }) => {
 }
 
 
-export default BlogIndexPage
-
-// export const query = graphql`
-//   query  {
-//     allDatoCmsBlogpost {
-//       nodes {
-//         slug
-//         image {
-//           gatsbyImageData
-//           alt
-//           title
-//         }
-//         category
-//         id
-//         title
-//         excerpt
-//       }
-//     }
-//   }
-// `
+export default Properties

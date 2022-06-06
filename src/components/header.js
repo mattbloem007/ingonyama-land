@@ -92,13 +92,14 @@ export default function Header() {
           }
         }
         adminMenu {
-          navItems {
+          ... on DatoCmsLayoutheader {
+            navItems {
             ... on DatoCmsNavItemGroup {
-              id
-              name
               navItems {
-                text
                 href
+                text
+              }
+              navItemType
               }
             }
           }
@@ -133,7 +134,6 @@ export default function Header() {
           firebase.getUserProfile({userId: user.uid})
           .then((profile) => {
             setProfile(profile)
-            console.log(profile)
           })
         }
         catch(err) {
@@ -141,7 +141,7 @@ export default function Header() {
         }
     }
   }
-  console.log("profile", data.layout.adminMenu)
+
 
   if (profile) {
     if (profile.role == "Lessee") {
