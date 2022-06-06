@@ -13,6 +13,7 @@ import {
   getFirestore,
   onSnapshot,
   collection,
+  runTransaction,
   query,
   where,
   limit,
@@ -21,6 +22,8 @@ import {
   doc,
   addDoc,
 } from "firebase/firestore"
+import { ref } from "firebase/database"
+import { useDatabaseSnapshot } from "@react-query-firebase/database"
 //import { navigate } from "gatsby"
 import { navigate } from "@reach/router"
 import { getFunctions, httpsCallable } from "firebase/functions"
@@ -95,6 +98,37 @@ class Firebase {
       window.sessionStorage.clear()
     }
     await signOut(this.auth)
+  }
+
+  async editUser({ docs }) {
+    try {
+      console.log(docs)
+      const q = query(collection(this.db, "users"), where("uid", "==", docs.uid));
+      const documen = await getDocs(q);
+      console.log(documen)
+      let id = ""
+      documen.forEach((d) => {
+        id = d.id
+      });
+
+      let sfDocRef = doc(this.db, "users", id)
+      await runTransaction(this.db, async (transaction) => {
+        const newData = docs
+        transaction.update(sfDocRef, docs);
+      });
+      console.log("Transaction successfully committed!");
+    } catch (e) {
+      console.log("Transaction failed: ", e);
+    }
+  }
+
+  async getAllUsers() {
+    let allUsers = []
+    const querySnapshot = await getDocs(collection(this.db, "users"));
+      querySnapshot.forEach((doc) => {
+        allUsers.push(doc.data())
+      });
+      return allUsers
   }
 
   async signInWithGoogle() {

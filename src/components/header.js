@@ -129,7 +129,6 @@ export default function Header() {
 
   if (user) {
     if (profile == null) {
-      console.log("her in")
       try {
           firebase.getUserProfile({userId: user.uid})
           .then((profile) => {

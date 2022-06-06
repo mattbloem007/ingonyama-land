@@ -11,13 +11,15 @@ import {
   BlockLink
 } from "../ui"
 import BootstrapTable from 'react-bootstrap-table-next';
+import cellEditFactory from 'react-bootstrap-table2-editor';
 
 const columns = [{
   dataField: 'name',
   text: 'Lessee Name'
 }, {
   dataField: 'email',
-  text: 'Lessee Email'
+  text: 'Lessee Email',
+  editable: false
 }, {
   dataField: 'number',
   text: 'Lessee Number'
@@ -26,10 +28,7 @@ const columns = [{
 
 const LesseeInfo = (props) => {
   const [profile, setProfile] = React.useState(null)
-  const [formValues, setFormValues] = useState({ name: "", number: "", role: "" })
   const { firebase } = useAuth()
-  let tableData = []
-
   let user = null;
   if (typeof window !== "undefined") {
     user = JSON.parse(window.sessionStorage.getItem('user'))
@@ -37,10 +36,10 @@ const LesseeInfo = (props) => {
 
   if (user) {
     if (profile == null) {
-      console.log("her in")
       try {
-          firebase.getUserProfile({userId: user.uid})
+          firebase.getAllUsers()
           .then((profile) => {
+            console.log(profile)
             setProfile(profile)
           })
         }
@@ -50,11 +49,6 @@ const LesseeInfo = (props) => {
     }
   }
 
-  if (profile) {
-      tableData.push(profile)
-  }
-
-    console.log("TABLE DATA", tableData)
 
     React.useEffect(() => {
 
@@ -65,7 +59,18 @@ const LesseeInfo = (props) => {
           <Section padding={4} background="muted">
             <Container>
             {
-              tableData ? <BootstrapTable keyField='id' data={ tableData } columns={ columns } />
+              profile ? <BootstrapTable
+                              keyField='id'
+                              data={ profile }
+                              columns={ columns }
+                              cellEdit={ cellEditFactory({
+                                  mode: 'click',
+                                  blurToSave: true,
+                                  afterSaveCell: (oldValue, newValue, row, column) => {
+                                    console.log(row) 
+                                    firebase.editUser({docs: row}) }
+                                }) }
+                               />
               :
               <div></div>
 
